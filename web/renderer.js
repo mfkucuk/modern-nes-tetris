@@ -3,6 +3,7 @@ import { InputState } from "../game/input.js";
 import { Piece } from "../game/piece.js";
 
 const game = new TetrisGame();
+const input = new InputState();
 let ctx;
 
 const FPS = 60;
@@ -11,8 +12,6 @@ const FRAME_TIME = 1000 / FPS;
 let lastTime = performance.now();
 let accumulator = 0;
 
-let frameNumber = 0;
-
 function gameLoop(currentTime) {
     const deltaTime = currentTime - lastTime;
     lastTime = currentTime;
@@ -20,13 +19,8 @@ function gameLoop(currentTime) {
     accumulator += deltaTime;
 
     while (accumulator >= FRAME_TIME) {
-        frameNumber++;
+        game.step(input);
         accumulator -= FRAME_TIME;
-    }
-
-    if (frameNumber >= 48) {
-        game.step(new InputState());
-        frameNumber = 0;
     }
 
     draw(ctx, game);
@@ -43,6 +37,30 @@ window.onload = () => {
     
     requestAnimationFrame(gameLoop);
 }
+
+window.addEventListener("keydown", (event) => {
+    switch (event.code) {
+        case "ArrowLeft":
+            input.left = true;
+            break;
+
+        case "ArrowRight":
+            input.right = true;
+            break;
+    }
+});
+
+window.addEventListener("keyup", (event) => {
+    switch (event.code) {
+        case "ArrowLeft":
+            input.left = false;
+            break;
+
+        case "ArrowRight":
+            input.right = false;
+            break;
+    }
+});
 
 /**
  * @param {CanvasRenderingContext2D} ctx

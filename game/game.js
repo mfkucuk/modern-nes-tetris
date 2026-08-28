@@ -34,7 +34,16 @@ export class TetrisGame {
             return;
         }
 
+        this.frame++;
+
+        if (this.frame < 10) {
+            return;
+        }
+
+        this.frame = 0;
+
         this.handleGravity();
+        this.handleInput(input);
     }
 
     next() {
@@ -57,6 +66,12 @@ export class TetrisGame {
      * @param {InputState} input 
      */
     handleInput(input) {
-
+        if (input.left) {
+            console.log('asd');
+            this.board.tryMove(this.currentPiece, -1, 0);
+        }
+        else if (input.right) {
+            this.board.tryMove(this.currentPiece, 1, 0);
+        }
     }
 }
