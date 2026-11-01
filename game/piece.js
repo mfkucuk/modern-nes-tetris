@@ -10,8 +10,11 @@ export const PieceType = Object.freeze({
     I: 7
 });
 
+// Offsets are [dx, dy] taken from the ROM's orientation table, listed in clockwise order.
+// spawnRotation is the orientation each piece appears in.
 export const PIECE_DEFINITIONS = {
     [PieceType.T]: {
+        spawnRotation: 2,
         rotations: [
             //   []
             // [][][]
@@ -34,6 +37,7 @@ export const PIECE_DEFINITIONS = {
     },
 
     [PieceType.J]: {
+        spawnRotation: 3,
         rotations: [
             //   []
             //   []
@@ -56,6 +60,7 @@ export const PIECE_DEFINITIONS = {
     },
 
     [PieceType.Z]: {
+        spawnRotation: 0,
         rotations: [
             // [][]
             //   [][]
@@ -68,7 +73,8 @@ export const PIECE_DEFINITIONS = {
         ]
     },
 
-    [PieceType.O]:  {
+    [PieceType.O]: {
+        spawnRotation: 0,
         rotations: [
             // [][]
             // [][]
@@ -77,6 +83,7 @@ export const PIECE_DEFINITIONS = {
     },
 
     [PieceType.S]: {
+        spawnRotation: 0,
         rotations: [
             //   [][]
             // [][]
@@ -90,6 +97,7 @@ export const PIECE_DEFINITIONS = {
     },
 
     [PieceType.L]: {
+        spawnRotation: 1,
         rotations: [
             // []
             // []
@@ -112,6 +120,7 @@ export const PIECE_DEFINITIONS = {
     },
 
     [PieceType.I]: {
+        spawnRotation: 1,
         rotations: [
             // []
             // []
@@ -134,35 +143,7 @@ export class Piece {
     }
 
     setInitialRotation() {
-        switch (this.type) {
-            case 1:
-                this.rotation = 2;
-                break;
-
-            case 2:
-                this.rotation = 3;
-                break;
-
-            case 3:
-                this.rotation = 0;
-                break;
-
-            case 4:
-                this.rotation = 0;
-                break;
-
-            case 5:
-                this.rotation = 0;
-                break;
-
-            case 6:
-                this.rotation = 1;
-                break;
-
-            case 7:
-                this.rotation = 1;
-                break;
-        }
+        this.rotation = PIECE_DEFINITIONS[this.type].spawnRotation;
     }
 
     blocks() {
@@ -170,11 +151,11 @@ export class Piece {
     }
 
     rotateCW() {
-        this.rotation = mod(this.rotation + 1, 4);
+        this.rotation = mod(this.rotation + 1, PIECE_DEFINITIONS[this.type].rotations.length);
     }
 
     rotateCCW() {
-        this.rotation = mod(this.rotation - 1, 4);
+        this.rotation = mod(this.rotation - 1, PIECE_DEFINITIONS[this.type].rotations.length);
     }
 
     move(dx, dy) {

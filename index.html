@@ -1,12 +1,76 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Modern NES Tetris</title>
 
-    <script type="module" src="game/game.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        html, body {
+            margin: 0;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #1b1b26 0%, #0b0b10 70%);
+            color: #8a8aa0;
+            font-family: "Press Start 2P", monospace;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        canvas {
+            display: block;
+            image-rendering: pixelated;
+            border-radius: 6px;
+            box-shadow: 0 0 0 2px #000, 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 80px rgba(60, 60, 140, 0.15);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 20px;
+            font-size: 9px;
+            letter-spacing: 0.5px;
+        }
+
+        kbd {
+            font-family: ui-monospace, Menlo, monospace;
+            font-size: 11px;
+            color: #e8e8f0;
+            background: #26263a;
+            border: 1px solid #3a3a55;
+            border-bottom-width: 3px;
+            border-radius: 4px;
+            padding: 3px 6px;
+            margin-right: 4px;
+        }
+    </style>
+
     <script type="module" src="web/renderer.js"></script>
 </head>
 <body>
-    <canvas width="400" height="800" id="tetrisGameCanvas"></canvas>
+    <canvas width="256" height="240" id="tetrisGameCanvas"></canvas>
+    <div class="controls">
+        <span><kbd>← →</kbd>Move</span>
+        <span><kbd>↓</kbd>Soft drop</span>
+        <span><kbd>X</kbd>Rotate right</span>
+        <span><kbd>Z</kbd>Rotate left</span>
+        <span><kbd>Enter</kbd>Start / Pause</span>
+        <span><kbd>Shift</kbd>Toggle next</span>
+    </div>
 </body>
 </html>
